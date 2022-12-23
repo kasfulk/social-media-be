@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { PrismaService } from './prisma/prisma.service';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
+import { env } from 'process';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -13,6 +14,6 @@ async function bootstrap() {
   const prismaService: PrismaService = app.get(PrismaService);
   prismaService.enableShutdownHooks(app);
 
-  await app.listen(3000);
+  await app.listen(env.ENVIRONTMENT === 'production' ? 80 : 3000);
 }
 bootstrap();
